@@ -1,2 +1,4 @@
 # squirrelbot
-Social Discord bot for when the chat is dead 
+Social Discord bot for Discord Hack Week.
+
+by `kia#5469`
