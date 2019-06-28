@@ -39,13 +39,13 @@ client.on("ready", () => {
           if(i === 4) {
                client.user.setActivity(null)
           }
-          if(j > 4) {
+          if(j < 4) {
                console.log('continued')
                return;
           } else if(j === 8 || j === 9) {
                if(i > 3) {
                     if(a.split(' ')[0] == '/playing') {
-                         play(a.replace(a.split(' ')[0]), '')
+                         play(a.replace(a.split(' ')[0], ''))
                          console.log('guitar')
                     } else {
                          listenTo(a)
@@ -57,11 +57,7 @@ client.on("ready", () => {
                     console.log(t)
                }
           }
-     }, 480000); // Math.random() * (1200000 - 480000) + 480000 -- between eight and 12 mins
-     // 4800000 + Math.random() * 960000
-     // 600000 -- ten minutes
-     // 480000 -- eight mins
-     // 1200000 -- 20 min
+     }, 480000)
 })
 
 let triggers = {
@@ -96,7 +92,7 @@ function fillNick(sending, message) {
      }, (sending.length / 2) * 200)
 }
 
-function arrayIncludes(arr, str) {
+function arrayIncludes(arr, str) { // shorter than arr.forEach(. . .)
      arr.forEach(a => {
           if (a.includes(str)) {
                return true;
@@ -120,6 +116,19 @@ client.on("message", (message) => {
      let content = message.content.toLowerCase();
 
      if (message.author.id === client.user.id) return;
+
+     const channel = message.channel
+     channel.fetchMessages({ limit: 3 }).then(messages => {
+          let lastMessage = messages.first()
+          let secondLast = messages.array()[1]
+          if (lastMessage.author.id !== client.user.id) {
+               if (lastMessage.author.id === client.user.id || secondLast.author.id !== client.user.id) {
+                    return;
+               } else {
+
+               }
+          }
+     }).catch(console.error);
 
      if (message.author.id === '83010416610906112' && content.includes('hello')) {
           message.channel.send('Hello NightBot!')
@@ -145,8 +154,6 @@ client.on("message", (message) => {
                     lolCount = 0;
                     fillNick(randomArray(responses.lols), message)
                }
-               // for every "lol" add one
-               // if it gets to {x} say "lol" or some form of roflmao
           }
 
      }
